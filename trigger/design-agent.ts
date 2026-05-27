@@ -1,5 +1,5 @@
 import { task } from "@trigger.dev/sdk/v3";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+// import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText, tool } from "ai";
 import { z } from "zod";
 import { LiveObject } from "@liveblocks/client";
@@ -7,7 +7,7 @@ import type { LiveblocksNode, LiveblocksEdge } from "@liveblocks/react-flow";
 import { getLiveblocks } from "@/lib/liveblocks";
 import { NODE_COLORS, SHAPE_DEFAULTS, NODE_SHAPES } from "@/types/canvas";
 import type { CanvasNode, CanvasEdge, NodeShape } from "@/types/canvas";
-
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 const AI_USER_ID = "ghost-ai";
 const AI_USER_INFO = { name: "Ghost AI", avatar: "", color: "#6457f9" };
 
@@ -158,7 +158,9 @@ export const designAgent = task({
   retry: { maxAttempts: 2 },
   run: async (payload: { prompt: string; roomId: string; userId: string }) => {
     const lb = getLiveblocks();
-    const google = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_AI_API_KEY });
+    const openrouter = createOpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY!,
+});
 
     await lb
       .setPresence(payload.roomId, {
@@ -193,7 +195,7 @@ export const designAgent = task({
       }
 
       const result = await generateText({
-        model: google("gemini-2.5-flash"),
+        model: openrouter.chat("openrouter/free"),
         system: buildSystemPrompt(),
         prompt: `User request: ${payload.prompt}\n\n${canvasContext}`,
         tools: canvasTools,

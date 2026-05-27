@@ -217,15 +217,16 @@ export const designAgent = task({
         .catch(() => {});
 
       await lb.mutateStorage(payload.roomId, ({ root }) => {
-        const flow = root.get("flow");
-        if (!flow) return;
-        const nodes = flow.get("nodes");
-        const edges = flow.get("edges");
+  const flow = (root as any).get("flow");
+  if (!flow) return;
 
-        for (const call of actionCalls) {
-          applyToolCall(call, nodes, edges);
-        }
-      });
+  const nodes = (flow as any).get("nodes");
+  const edges = (flow as any).get("edges");
+
+  for (const call of actionCalls) {
+    applyToolCall(call, nodes, edges);
+  }
+});
 
       await lb
         .broadcastEvent(payload.roomId, {

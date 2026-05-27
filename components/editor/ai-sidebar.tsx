@@ -126,15 +126,15 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
 
   // Canvas storage for spec generation context
   // useStorage immutably serializes LiveMap as a plain readonly object, so use Object.values
-  const nodesArray = useStorage((root) => {
-    const m = root.flow?.nodes
-    return m ? Object.values(m) : []
-  })
-  const edgesArray = useStorage((root) => {
-    const m = root.flow?.edges
-    return m ? Object.values(m) : []
-  })
+const nodesArray = useStorage((root: any) => {
+  const m = root?.flow?.nodes
+  return m ? Object.values(m) : []
+})
 
+const edgesArray = useStorage((root: any) => {
+  const m = root?.flow?.edges
+  return m ? Object.values(m) : []
+})
   const self = useSelf()
   const updateMyPresence = useUpdateMyPresence()
   const createFeed = useCreateFeed()
@@ -257,10 +257,10 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
   }, [isSpecGenerating, roomId, nodesArray, edgesArray, validatedChatMessages])
 
   // Receive broadcast status events for real-time strip text
-  useEventListener(({ event }) => {
-    if (event.type !== "ai-status") return
-    setStatusText(event.message)
-  })
+useEventListener(({ event }: any) => {
+  if (event?.type !== "ai-status") return
+  setStatusText(event.message)
+})
 
   // Scroll both tabs to bottom when messages update
   useEffect(() => {
@@ -293,7 +293,7 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
 
     // Push user message to shared ai-chat feed
     createFeedMessage(CHAT_FEED_ID, {
-      sender: self?.info?.name ?? "Unknown",
+      sender: (self as any)?.info?.name ?? "Unknown",
       role: "user",
       content: text,
       timestamp: new Date().toISOString(),
@@ -383,7 +383,7 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
 
     try {
       await createFeedMessage(CHAT_FEED_ID, {
-        sender: self?.info?.name ?? "Unknown",
+        sender: (self as any)?.info?.name ?? "Unknown",
         role: "user",
         content: text,
         timestamp: new Date().toISOString(),
@@ -703,7 +703,7 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
                   <div className="flex flex-col gap-3 pb-2">
                     {validatedChatMessages.map((msg) => {
                       const isMe =
-                        msg.role === "user" && msg.sender === self?.info?.name
+                        msg.role === "user" && msg.sender === (self as any)?.info?.name
                       const isAI = msg.role === "assistant"
                       return (
                         <div

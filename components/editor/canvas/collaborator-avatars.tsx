@@ -22,9 +22,9 @@ export function CollaboratorAvatars() {
             {visible.map((other) => (
               <AvatarChip
                 key={other.connectionId}
-                name={other.info?.name ?? "Anonymous"}
-                avatar={other.info?.avatar}
-                color={other.info?.color ?? "#888888"}
+                name={(other.info as any)?.name ?? "Anonymous"}
+avatar={(other.info as any)?.avatar}
+color={(other.info as any)?.color ?? "#888888"}
               />
             ))}
             {overflow > 0 && (

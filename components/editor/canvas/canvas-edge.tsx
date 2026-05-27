@@ -29,7 +29,7 @@ export function CanvasEdgeComponent({
 
   const updateEdgeLabel = useMutation(
     ({ storage }, newLabel: string) => {
-      const edge = storage.get("flow").get("edges").get(id)
+      const edge = (storage as any).get("flow").get("edges").get(id)
       if (!edge) return
       ;(edge as unknown as LiveEdgeData).get("data").set("label", newLabel)
     },

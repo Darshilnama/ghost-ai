@@ -96,17 +96,34 @@ export function useProjectDialogs() {
   }
 
   return {
-    projects,
-    dialogType,
-    activeProject,
-    name,
-    slug,
-    loading,
-    openCreate,
-    openRename,
-    openDelete,
-    close,
-    handleNameChange,
-    submit,
-  }
+  // Original exports
+  projects,
+  dialogType,
+  activeProject,
+  name,
+  slug,
+  loading,
+  openCreate,
+  openRename,
+  openDelete,
+  close,
+  handleNameChange,
+  submit,
+
+
+  // // Compatibility aliases
+  // activeDialog: dialogType,
+  // projectName: name,
+  // slugPreview: slug,
+  // isLoading: loading,
+  // MockProject: null,
+
+  // openCreateDialog: openCreate,
+  // openRenameDialog: openRename,
+  // openDeleteDialog: openDelete,
+
+  // closeDialog: close,
+  // setProjectName: handleNameChange,
+  // submitDialog: submit,
+}
 }
